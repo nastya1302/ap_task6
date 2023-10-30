@@ -1,18 +1,20 @@
 import concurrent.futures
 import requests
-from PIL import Image
-from io import BytesIO
+import time
+from random import randint
 
-
-def download_images(list_links: str):
-    for i,link in enumerate(list_links):
-        response = requests.get(link)
-        f = open(f'image{i+1}.jpg', "wb")
-        f.write(response.content)
-        f.close()                                         
+def download_images(link: str):
+    response = requests.get(link)
+    f = open(f'image{randint(0,10)}.jpg', "wb")
+    f.write(response.content)
+    f.close()                                         
             
-
 if __name__ == '__main__':
-    links = input("Введите список ссылок: ")
+    t1 = time.time()
+    links = input("Введите ссылки:")
     list_links = links.split()
-    download_images(list_links)
+    results = []
+    for link in list_links:
+        future = concurrent.futures.ProcessPoolExecutor().submit(download_images, link)
+        #results.append(future)
+    print(time.time() - t1)    
