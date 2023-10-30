@@ -1,9 +1,10 @@
 import concurrent.futures
 import requests
 import time
+import sys
 from random import randint
 
-def download_images(link: str):
+def download_images(link: str) -> None:
     response = requests.get(link)
     with open(f'image{randint(0,10)}.jpg', "wb") as f:
         f.write(response.content)
@@ -11,7 +12,7 @@ def download_images(link: str):
             
 if __name__ == '__main__':
     t = time.time()
-    links = input("Введите ссылки:")
+    links = sys.argv[1:]
     list_links = links.split()
     results = []
     for link in list_links:
