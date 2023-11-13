@@ -9,9 +9,12 @@ def download_images(link: str) -> None:
     with open(f'image{randint(0,100)}.jpg', "wb") as f:
         f.write(response)
                                              
-if __name__ == '__main__':
+def main() -> None:
     t = time.time()
     links = sys.argv[1:]
     with concurrent.futures.ProcessPoolExecutor() as executor:
-        future = [executor.submit(download_images, link) for link in links]
-    print(time.time() - t)    
+        [executor.submit(download_images, link) for link in links]
+    print(time.time() - t)   
+
+if __name__ == '__main__':
+    main()
